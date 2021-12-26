@@ -1,0 +1,77 @@
+openapi: 3.0.3
+info:
+  title: Market api
+  description: Market api
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /items:
+    get:
+      summary: List items
+      description: List current items in db
+      responses:
+        200:
+          description: Items fetched well
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ItemList"
+    post:
+      summary: Create new Item
+      description: Request for new Item
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Item"
+      responses:
+        200:
+          description: New Item returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+    put:
+      summary: Update existing Item
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Item"
+      responses:
+        200:
+          description: Updated Item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+    delete:
+      summary: Delete existing Item
+      parameters:
+        - name: 'id'
+          in: "query"
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Item deleted successfully
+
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+    ItemList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Item"
